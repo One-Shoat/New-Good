@@ -1,0 +1,15 @@
+{
+  "name": "new-good",
+  "version": "0.0.1",
+  "description": "Um jogo de deus.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx esbuild src/index.js --bundle --minify --target=es6 --outfile=src/out/bundle.js"
+  },
+  "author": "Vaf, Kem and clebin",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.17.15"
+  }
+}
