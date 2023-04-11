@@ -18,6 +18,9 @@ addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
+    if(colision(mousex, mousey, 1128, 728, 0.1)) {
+        alert("colision detected")
+    }
     for (let i = 0; i < ini.length; i++) {
         if(ini[i].life == 2) {
             ini[i].img = "http://127.0.0.1:5500/assets/sprite_1.png"
@@ -45,6 +48,7 @@ function dead() {
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
             if(life == 0) {
+                point -= 15
                 a.i = 0
                 level()
                 
@@ -71,8 +75,6 @@ function render() {
     requestAnimationFrame(render)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     for (let i = 0; i < ini.length; i++) {
-        let objX = ini[i].x
-        let objY = ini[i].y
         let objWidth = 20
         let objHeight = 20
         let diffX = canvas.width / 2 - ini[i].x
@@ -94,8 +96,11 @@ function render() {
     }
         
     dead()
+    for(let i = 0; i < life; i++) {
+        draw(ctx, "https://cdn.discordapp.com/attachments/1087504461364207656/1095433836432740362/Coracao_cheio.png",i * 50, 0, 150, 150)
+    }
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
-    draw(ctx, "", 90, 90, 50, 50)
+    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", 1000, 600, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
 }
 render()
