@@ -23,10 +23,10 @@ addEventListener("mousedown", (ev) => {
     }
     for (let i = 0; i < ini.length; i++) {
         if(ini[i].life == 2) {
-            ini[i].img = "http://127.0.0.1:5500/assets/sprite_1.png"
+            ini[i].img = "./assets/sprite_1.png"
         }
         if(ini[i].life == 1) {
-            ini[i].img = "http://127.0.0.1:5500/assets/sprite_2.png"
+            ini[i].img = "./assets/sprite_2.png"
         }
         if (isMouseDown && colision(ini[i].x, ini[i].y, mousex, mousey, 0.06)) {
             ini[i].life -= 1
@@ -48,7 +48,9 @@ function dead() {
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
             if(life == 0) {
-                point -= 15
+                if(point > 0) {
+                    point -= 15
+                }
                 a.i = 0
                 level()
                 

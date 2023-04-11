@@ -4,7 +4,7 @@ let timeouts = []
 const canvas = document.getElementById("game")
 function horda(num) {
     for (let i = 0; i < num; i++) {
-        ini.push({ id: i, x: Math.floor(Math.random() * canvas.width), y: Math.floor(Math.random() * canvas.height), img: "http://127.0.0.1:5500/assets/sprite_0.png", type: "bugener", life: 3 })
+        ini.push({ id: i, x: Math.floor(Math.random() * canvas.width), y: Math.floor(Math.random() * canvas.height), img: "./assets/sprite_0.png", type: "bugener", life: 3 })
     }
 }
 
