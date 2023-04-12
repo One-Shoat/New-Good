@@ -38,6 +38,20 @@ addEventListener("mousedown", (ev) => {
                 ini[i].img = "./assets/sprite_2.png"
             }
         }
+        if (ini[i].type == "singulary") {
+            if (ini[i].life == 4) {
+                ini[i].img = "./assets/sprite_singulary0.png"
+            }
+            if (ini[i].life == 3) {
+                ini[i].img = "./assets/sprite_singulary1.png"
+            }
+            if (ini[i].life == 2) {
+                ini[i].img = "./assets/sprite_singulary2.png"
+            }
+            if (ini[i].life == 1) {
+                ini[i].img = "./assets/sprite_singulary3.png"
+            }
+        }
         if (isMouseDown && colision(ini[i].x, ini[i].y, mousex, mousey, 0.06)) {
             ini[i].life -= 1
             point += 1
@@ -59,7 +73,7 @@ function dead() {
 
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
-            if (point > 14) {
+            if (point < 14) {
                 point -= 15
             } else {
                 point -= point
