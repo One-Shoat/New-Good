@@ -1,5 +1,5 @@
-import {draw, text } from "./draw"
-import {a, level} from "./level"
+import { draw, text } from "./draw"
+import { a, level } from "./level"
 const canvas = document.getElementById("game")
 /**@type {CanvasRenderingContext2D} */
 const ctx = canvas.getContext("2d")
@@ -12,26 +12,31 @@ let mousex
 let mousey
 let life = 3
 let isMouseDown = false
-let itens = {point, life}
+let itens = { point, life }
+let inventary = false
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
-    if(colision(mousex, mousey, 1128, 728, 0.1)) {
-        alert("colision detected")
+    if (colision(mousex, mousey,  canvas.width - 16, canvas.height - 16, 0.1)) {
+        if (inventary == true) {
+            return inventary = false
+        } else {
+            inventary = true
+        }
     }
     for (let i = 0; i < ini.length; i++) {
-        if(ini[i].life == 2) {
+        if (ini[i].life == 2) {
             ini[i].img = "./assets/sprite_1.png"
         }
-        if(ini[i].life == 1) {
+        if (ini[i].life == 1) {
             ini[i].img = "./assets/sprite_2.png"
         }
         if (isMouseDown && colision(ini[i].x, ini[i].y, mousex, mousey, 0.06)) {
             ini[i].life -= 1
             point += 1
-            
+
             break
         }
     }
@@ -47,16 +52,16 @@ function dead() {
         a.i = 0
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
-            if(life == 0) {
-                if(point > 14) {
+            if (life == 0) {
+                if (point > 14) {
                     point -= 15
-                }else {
+                } else {
                     point -= point
                 }
-                
+
                 a.i = 0
                 level()
-                
+
             }
             life = 3
         }, 2000)
@@ -99,14 +104,19 @@ function render() {
 
         draw(ctx, ini[i].img, ini[i].x, ini[i].y, 50, 50)
     }
-        
+
     dead()
-    for(let i = 0; i < life; i++) {
-        draw(ctx, "https://cdn.discordapp.com/attachments/1087504461364207656/1095433836432740362/Coracao_cheio.png",i * 50, 0, 150, 150)
+    for (let i = 0; i < life; i++) {
+        draw(ctx, "https://cdn.discordapp.com/attachments/1087504461364207656/1095433836432740362/Coracao_cheio.png", i * 50, 0, 150, 150)
+    }
+    if (inventary == true) {
+        ctx.globalAlpha = 0.9
+        draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", canvas.width - 128, canvas.height - 256, 128, 128)
+        ctx.globalAlpha = 1
     }
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
-    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", 1000, 600, 128, 128)
+    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
 }
 render()
-export {ini, itens}
+export { ini, itens }
