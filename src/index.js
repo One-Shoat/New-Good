@@ -1,5 +1,6 @@
 import { draw, text } from "./draw"
 import { a, level } from "./level"
+import demage from "./music"
 const canvas = document.getElementById("game")
 /**@type {CanvasRenderingContext2D} */
 const ctx = canvas.getContext("2d")
@@ -8,18 +9,20 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
 let point = 0
+let enem = 0
 let mousex
 let mousey
 let life = 3
 let isMouseDown = false
-let itens = { point, life }
+let itens = { enem }
 let inventary = false
+
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
-    if (colision(mousex, mousey,  canvas.width - 16, canvas.height - 16, 0.1)) {
+    if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
         } else {
@@ -27,11 +30,13 @@ addEventListener("mousedown", (ev) => {
         }
     }
     for (let i = 0; i < ini.length; i++) {
-        if (ini[i].life == 2) {
-            ini[i].img = "./assets/sprite_1.png"
-        }
-        if (ini[i].life == 1) {
-            ini[i].img = "./assets/sprite_2.png"
+        if (ini[i].type == "bugenner") {
+            if (ini[i].life == 2) {
+                ini[i].img = "./assets/sprite_1.png"
+            }
+            if (ini[i].life == 1) {
+                ini[i].img = "./assets/sprite_2.png"
+            }
         }
         if (isMouseDown && colision(ini[i].x, ini[i].y, mousex, mousey, 0.06)) {
             ini[i].life -= 1
@@ -39,6 +44,7 @@ addEventListener("mousedown", (ev) => {
 
             break
         }
+
     }
 })
 addEventListener("mouseup", (ev) => {
@@ -47,23 +53,22 @@ addEventListener("mouseup", (ev) => {
     isMouseDown = false;
 })
 function dead() {
-    if (life == 0) {
+    if (life <= 0) {
         ini = []
         a.i = 0
+
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
-            if (life == 0) {
-                if (point > 14) {
-                    point -= 15
-                } else {
-                    point -= point
-                }
-
-                a.i = 0
-                level()
-
+            if (point > 14) {
+                point -= 15
+            } else {
+                point -= point
             }
+
+            a.i = 0
+            level()
             life = 3
+
         }, 2000)
     }
 }
@@ -98,8 +103,15 @@ function render() {
             ini.splice(i, 1)
         }
         if (rectIntersect(ini[i].x, ini[i].y, canvas.width / 2, canvas.height / 2, 0.04, objWidth, objHeight)) {
+            if (ini[i].type == "bugenner") {
+                life -= 1
+            }
+            if (ini[i].type == "singulary") {
+                life -= 0.5
+            }
+            demage.play()
             ini.splice(i, 1)
-            life -= 1
+
         }
 
         draw(ctx, ini[i].img, ini[i].x, ini[i].y, 50, 50)
