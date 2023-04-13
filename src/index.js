@@ -9,19 +9,23 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
 let point = 0
-let enem = 0
 let mousex
 let mousey
 let life = 3
 let isMouseDown = false
-let itens = { enem }
 let inventary = false
-
+let item
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
+ 
+     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05,8)) {
+       item = "graminea"
+    } else {
+       item = ""
+    }
     if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
@@ -59,6 +63,11 @@ addEventListener("mousedown", (ev) => {
             break
         }
 
+    }
+})
+addEventListener("mousemove", (ev) => {
+    if(item !== "") {
+       draw(ctx, "https://cdn.discordapp.com/attachments/1087504461364207656/1095433836432740362/Coracao_cheio.png", ev.clientX, ev.clientY, 50, 50)
     }
 })
 addEventListener("mouseup", (ev) => {
@@ -151,4 +160,4 @@ function render() {
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
 }
 render()
-export { ini, itens }
+export { ini }

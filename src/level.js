@@ -1,4 +1,4 @@
-import { ini, itens } from "."
+import { ini } from "."
 let a = { i: 0 }
 let timeouts = []
 const canvas = document.getElementById("game")
