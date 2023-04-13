@@ -73,7 +73,7 @@ function dead() {
 
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
-            if (point < 14) {
+            if (point > 14) {
                 point -= 15
             } else {
                 point -= point
@@ -106,11 +106,17 @@ function render() {
     for (let i = 0; i < ini.length; i++) {
         let objWidth = 20
         let objHeight = 20
+        let vel = 0
         let diffX = canvas.width / 2 - ini[i].x
         let diffY = canvas.height / 2 - ini[i].y
-
-        let newX = ini[i].x + diffX * 0.008
-        let newY = ini[i].y + diffY * 0.008
+        if(ini[i].type == "bugenner") {
+            vel = 0.008
+        }
+        if(ini[i].type == "singulary") {
+            vel = 0.004
+        }
+        let newX = ini[i].x + diffX * vel
+        let newY = ini[i].y + diffY * vel
         ini[i].x = newX
         ini[i].y = newY
         if (ini[i].life < 0) {
