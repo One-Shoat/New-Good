@@ -73,7 +73,7 @@ function dead() {
 
         text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
         setTimeout(() => {
-            if (point < 14) {
+            if (point > 14) {
                 point -= 15
             } else {
                 point -= point
