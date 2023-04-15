@@ -14,25 +14,25 @@ let mousey
 let life = 3
 let isMouseDown = false
 let inventary = false
-let item = [{type: "0"}]
+let item = [{type: "a", name: "a", x: -999, y: -999}]
+
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
-     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05,8)) {
-            item.push({type: "graminea"})
-    }else {
-        item[item.length - 1].type = "pressed"
-    }
     console.log(item)
-
     if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
         } else {
             inventary = true
         }
+    }
+    if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05,8)) {
+       item.push({type: "graminea", name: "graminea", x: -999, y: -999})
+    }else if(item[item.length - 1].type != "a") {
+        item[item.length - 1].type = "pressed"
     }
     for (let i = 0; i < ini.length; i++) {
         if (ini[i].type == "bugenner") {
@@ -72,10 +72,12 @@ addEventListener("mouseup", (ev) => {
     isMouseDown = false;
 })
 addEventListener("mousemove", (ev) => {
-    if(item[item.length - 1] != "pressed") {
-        movex = ev.clientX
-        movey = ev.clientY
+    if(item[item.length - 1].type != "pressed"){
+        item[item.length - 1].x = ev.clientX
+        return  item[item.length - 1].y = ev.clientY
     }
+    return; 
+
 })
 function dead() {
     if (life <= 0) {
@@ -157,9 +159,16 @@ function render() {
         draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", canvas.width - 128, canvas.height - 256, 128, 128)
         ctx.globalAlpha = 1
     }
-    if(item[item.length - 1] == "graminea") {
-        draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", 50, 50, 128, 128)
+    for(let i = 0; i < item.length; i++) {
+        if(item[i].type != "a") {
+            draw(ctx, "./assets/graminea.png", item[i].x,  item[i].y, 32, 32)
+        }
+        if(item[i].type == "greminea" || item[i].type == "pressed" && item[i].name == "graminea") {
+            draw(ctx, "./assets/graminea.png", item[i].x,  item[i].y, 32, 32)
+    
+        }
     }
+   
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
