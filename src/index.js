@@ -9,19 +9,24 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
 let point = 0
-let enem = 0
 let mousex
 let mousey
 let life = 3
 let isMouseDown = false
-let itens = { enem }
 let inventary = false
-
+let item = [{type: "0"}]
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
+     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05,8)) {
+            item.push({type: "graminea"})
+    }else {
+        item[item.length - 1].type = "pressed"
+    }
+    console.log(item)
+
     if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
@@ -66,6 +71,12 @@ addEventListener("mouseup", (ev) => {
     mousey = 0
     isMouseDown = false;
 })
+addEventListener("mousemove", (ev) => {
+    if(item[item.length - 1] != "pressed") {
+        movex = ev.clientX
+        movey = ev.clientY
+    }
+})
 function dead() {
     if (life <= 0) {
         ini = []
@@ -106,11 +117,17 @@ function render() {
     for (let i = 0; i < ini.length; i++) {
         let objWidth = 20
         let objHeight = 20
+        let vel = 0
         let diffX = canvas.width / 2 - ini[i].x
         let diffY = canvas.height / 2 - ini[i].y
-
-        let newX = ini[i].x + diffX * 0.008
-        let newY = ini[i].y + diffY * 0.008
+        if(ini[i].type == "bugenner") {
+            vel = 0.008
+        }
+        if(ini[i].type == "singulary") {
+            vel = 0.004
+        }
+        let newX = ini[i].x + diffX * vel
+        let newY = ini[i].y + diffY * vel
         ini[i].x = newX
         ini[i].y = newY
         if (ini[i].life < 0) {
@@ -140,9 +157,12 @@ function render() {
         draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", canvas.width - 128, canvas.height - 256, 128, 128)
         ctx.globalAlpha = 1
     }
+    if(item[item.length - 1] == "graminea") {
+        draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", 50, 50, 128, 128)
+    }
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
 }
 render()
-export { ini, itens }
+export { ini }
