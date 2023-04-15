@@ -14,18 +14,19 @@ let mousey
 let life = 3
 let isMouseDown = false
 let inventary = false
-let item
+let item = [{type: "0"}]
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
- 
      if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05,8)) {
-       item = "graminea"
-    } else {
-       item = ""
+            item.push({type: "graminea"})
+    }else {
+        item[item.length - 1].type = "pressed"
     }
+    console.log(item)
+
     if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
@@ -65,15 +66,16 @@ addEventListener("mousedown", (ev) => {
 
     }
 })
-addEventListener("mousemove", (ev) => {
-    if(item !== "") {
-       draw(ctx, "https://cdn.discordapp.com/attachments/1087504461364207656/1095433836432740362/Coracao_cheio.png", ev.clientX, ev.clientY, 50, 50)
-    }
-})
 addEventListener("mouseup", (ev) => {
     mousex = 0
     mousey = 0
     isMouseDown = false;
+})
+addEventListener("mousemove", (ev) => {
+    if(item[item.length - 1] != "pressed") {
+        movex = ev.clientX
+        movey = ev.clientY
+    }
 })
 function dead() {
     if (life <= 0) {
@@ -154,6 +156,9 @@ function render() {
         ctx.globalAlpha = 0.9
         draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", canvas.width - 128, canvas.height - 256, 128, 128)
         ctx.globalAlpha = 1
+    }
+    if(item[item.length - 1] == "graminea") {
+        draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", 50, 50, 128, 128)
     }
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
