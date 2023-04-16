@@ -168,7 +168,7 @@ function render() {
             item.splice(i, 1)
         }
         for (let inicounter = 0; inicounter < ini.length; inicounter++) {
-            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.05)) {
+            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.05) && item[i].type == "pressed") {
                 if (ini[inicounter].type == "bugenner") {
                     item[i].life -= 1
                 }
@@ -188,14 +188,14 @@ function render() {
                 item[i].lastUpdateTime = Date.now();
             }
             const now = Date.now();
-            if ((now - item[i].lastUpdateTime) >= 10000) {
+            if ((now - item[i].lastUpdateTime) >= 3000) {
                 item[i].lastUpdateTime = now;
-                point += 3
+                point += 1
             }
             draw(ctx, "./assets/graminea.png", item[i].x, item[i].y, 32, 32);
         }
     }
-
+    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300",  canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
