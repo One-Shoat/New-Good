@@ -28,12 +28,19 @@ addEventListener("mousedown", (ev) => {
             inventary = true
         }
     }
-    if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05, 8)) {
+    if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 256, 0.05)) {
         if (point < 30) {
             return alert("pobre fudido")
         }
         point -= 30
         return item.push({ type: "graminea", name: "graminea", x: -999, y: -999, life: 3 })
+    } 
+    if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 220, 0.05)) {
+        if (point < 0) {
+            return alert("pobre fudido")
+        }
+        point -= 50
+        return item.push({ type: "stoneenner", name: "stoneenner", x: -999, y: -999, life: 5 })
     } else if (item[item.length - 1].type != "a") {
         item[item.length - 1].type = "pressed"
     }
@@ -86,8 +93,7 @@ function dead() {
     if (life <= 0) {
         ini = []
         a.i = 0
-
-        text(ctx, "arial", "red", "A energia, foi redestribuida por todos os cantos do universo.", 50, 50)
+        draw(ctx, "./assets/gameover.png", 0, 0, canvas.width, canvas.height)
         setTimeout(() => {
             life = 3
             if (point < 14) {
@@ -162,7 +168,6 @@ function render() {
         draw(ctx, "https://media.discordapp.net/attachments/1087503910098436158/1095756195362508810/sprite__grama_de_pontos0_1.png?width=120&height=120", canvas.width - 128, canvas.height - 256, 128, 128)
         ctx.globalAlpha = 1
     }
-    dead()
     for (let i = 0; i < item.length; i++) {
         if (item[i].life < 0) {
             item.splice(i, 1)
@@ -177,12 +182,13 @@ function render() {
                 }
                 ini.splice(inicounter, 1)
             }
+            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 1) && item[i].type == "pressed" ) {
+                ini[inicounter].x = 1
+            }
 
         }
 
-        if (item[i].type != "a") {
-            draw(ctx, "./assets/graminea.png", item[i].x, item[i].y, 32, 32)
-        }
+
         if (item[i].type == "graminea" || (item[i].type == "pressed" && item[i].name == "graminea")) {
             if (!item[i].lastUpdateTime) {
                 item[i].lastUpdateTime = Date.now();
@@ -194,11 +200,16 @@ function render() {
             }
             draw(ctx, "./assets/graminea.png", item[i].x, item[i].y, 32, 32);
         }
+        if (item[i].type == "stoneenner" || (item[i].type == "pressed" && item[i].name == "stoneenner")) {
+
+            draw(ctx, "./assets/Coracao_cheio.png", item[i].x, item[i].y, 64, 64);
+        }
     }
-    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300",  canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
+    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300", canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1091018990089932850/1093625787413966903/New_Piskel_20.png?width=128&height=128", canvas.width / 2, canvas.height / 2, 50, 50)
+    dead()
 }
 render()
 export { ini }
