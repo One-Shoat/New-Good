@@ -1,6 +1,6 @@
 import { draw, text } from "./draw"
 import { a, level } from "./level"
-import demage from "./music"
+import {demage} from "./music"
 const canvas = document.getElementById("game")
 /**@type {CanvasRenderingContext2D} */
 const ctx = canvas.getContext("2d")
@@ -15,12 +15,12 @@ let life = 3
 let isMouseDown = false
 let inventary = false
 let item = [{ type: "a", name: "a", x: -999, y: -999 }]
+let ester = []
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
-    console.log(item)
     if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
@@ -37,6 +37,10 @@ addEventListener("mousedown", (ev) => {
     } else if (item[item.length - 1].type != "a") {
         item[item.length - 1].type = "pressed"
     }
+    if(inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 300, 0.05, 8)) {
+       alert("a")
+    }
+
     for (let i = 0; i < ini.length; i++) {
         if (ini[i].type == "bugenner") {
             if (ini[i].life == 2) {
@@ -195,6 +199,7 @@ function render() {
             draw(ctx, "./assets/graminea.png", item[i].x, item[i].y, 32, 32);
         }
     }
+
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300",  canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
