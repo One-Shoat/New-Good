@@ -182,8 +182,15 @@ function render() {
                 }
                 ini.splice(inicounter, 1)
             }
-            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 1) && item[i].type == "pressed" ) {
-                ini[inicounter].x = 1
+            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.05) && item[i].type == "pressed" ) {
+                 if (!item[i].lastUpdateTime) {
+                item[i].lastUpdateTime = Date.now();
+            }
+            const now = Date.now();
+            if ((now - item[i].lastUpdateTime) >= 4000) {
+                item[i].lastUpdateTime = now;
+                ini[inicounter].life -= 1
+            }
             }
 
         }
