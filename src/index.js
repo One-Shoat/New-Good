@@ -1,6 +1,6 @@
 import { draw, text } from "./draw"
 import { a, level } from "./level"
-import {demage} from "./music"
+import { demage } from "./music"
 const canvas = document.getElementById("game")
 /**@type {CanvasRenderingContext2D} */
 const ctx = canvas.getContext("2d")
@@ -15,12 +15,13 @@ let life = 3
 let isMouseDown = false
 let inventary = false
 let item = [{ type: "a", name: "a", x: -999, y: -999 }]
-let ester = []
+let good = { x: canvas.width / 2, y: canvas.height / 2 }
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
     mousey = ev.clientY
     isMouseDown = true;
+    console.log(item)
     if (colision(mousex, mousey, canvas.width - 16, canvas.height - 16, 0.1)) {
         if (inventary == true) {
             return inventary = false
@@ -34,7 +35,7 @@ addEventListener("mousedown", (ev) => {
         }
         point -= 30
         return item.push({ type: "graminea", name: "graminea", x: -999, y: -999, life: 3 })
-    } 
+    }
     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 220, 0.05)) {
         if (point < 0) {
             return alert("pobre fudido")
@@ -44,10 +45,6 @@ addEventListener("mousedown", (ev) => {
     } else if (item[item.length - 1].type != "a") {
         item[item.length - 1].type = "pressed"
     }
-    if(inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 300, 0.05, 8)) {
-       alert("a")
-    }
-
     for (let i = 0; i < ini.length; i++) {
         if (ini[i].type == "bugenner") {
             if (ini[i].life == 2) {
@@ -186,8 +183,18 @@ function render() {
                 }
                 ini.splice(inicounter, 1)
             }
-            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 1) && item[i].type == "pressed" ) {
-                ini[inicounter].x = 1
+            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.05) && item[i].name == "stoneenner" && item[i].type == "pressed") {
+                
+                alert("a")
+                if (!item[i].lastUpdateTime) {
+                    item[i].lastUpdateTime = Date.now();
+                }
+                const now = Date.now();
+                if ((now - item[i].lastUpdateTime) >= 4000) {
+                    item[i].lastUpdateTime = now;
+                    ini[inicounter].life -= 1
+                }
+                point += 1
             }
 
         }
@@ -204,11 +211,16 @@ function render() {
             }
             draw(ctx, "./assets/graminea.png", item[i].x, item[i].y, 32, 32);
         }
+        if (item[i].type == "stoneenner" || (item[i].type == "pressed" && item[i].name == "stoneenner")) {
+
+            draw(ctx, "./assets/Coracao_cheio.png", item[i].x, item[i].y, 64, 64);
+        }
     }
-    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300",  canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
+    good.y = Math.floor(Math.random() * 21) + canvas.height / 2 - 10
+    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300", canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
-    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1097932946888982558/KOtsu-export.png?width=287&height=287", canvas.width / 2, canvas.height / 2, 50, 50)
+    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1097932946888982558/KOtsu-export.png?width=287&height=287", good.x, good.y, 50, 50)
     dead()
 }
 render()
