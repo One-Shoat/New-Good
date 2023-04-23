@@ -36,8 +36,15 @@ addEventListener("mousedown", (ev) => {
         point -= 30
         return item.push({ type: "graminea", name: "graminea", x: -999, y: -999, life: 3 })
     }
+     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 175, 0.05)) {
+        if (point < 30) {
+            return alert("pobre fudido")
+        }
+        point -= 30
+        return item.push({ type: "cerca", name: "cerca", x: -999, y: -999, life: 7 })
+    }
     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 220, 0.05)) {
-        if (point < 0) {
+        if (point < 50) {
             return alert("pobre fudido")
         }
         point -= 50
@@ -174,6 +181,10 @@ function render() {
             item.splice(i, 1)
         }
         for (let inicounter = 0; inicounter < ini.length; inicounter++) {
+            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.1) && item[i].type == "pressed" && item[i].name == "stoneenner") {
+                ini.splice(inicounter, 1)
+                item[i].life -= 0.5
+            }
             if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.05) && item[i].type == "pressed") {
                 if (ini[inicounter].type == "bugenner") {
                     item[i].life -= 1
@@ -183,19 +194,7 @@ function render() {
                 }
                 ini.splice(inicounter, 1)
             }
-            if (colision(item[i].x, item[i].y, ini[inicounter].x, ini[inicounter].y, 0.05) && item[i].name == "stoneenner" && item[i].type == "pressed") {
-                
-                alert("a")
-                if (!item[i].lastUpdateTime) {
-                    item[i].lastUpdateTime = Date.now();
-                }
-                const now = Date.now();
-                if ((now - item[i].lastUpdateTime) >= 4000) {
-                    item[i].lastUpdateTime = now;
-                    ini[inicounter].life -= 1
-                }
-                point += 1
-            }
+            
 
         }
 
@@ -214,6 +213,10 @@ function render() {
         if (item[i].type == "stoneenner" || (item[i].type == "pressed" && item[i].name == "stoneenner")) {
 
             draw(ctx, "./assets/Coracao_cheio.png", item[i].x, item[i].y, 64, 64);
+        }
+        if (item[i].type == "cerca" || (item[i].type == "pressed" && item[i].name == "cerca")) {
+
+            draw(ctx, "./assets/cerca.png", item[i].x, item[i].y, 32, 32);
         }
     }
     good.y = Math.floor(Math.random() * 21) + canvas.height / 2 - 10
