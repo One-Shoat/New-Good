@@ -214,6 +214,9 @@ function render() {
                 if (ini[inicounter].type == "singulary") {
                     item[i].life -= 0.5
                 }
+                if (ini[inicounter].type == "rocketener") {
+                    item[i].life -= 2
+                }
                 ini.splice(inicounter, 1)
             }
             
