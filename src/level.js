@@ -33,8 +33,8 @@ function level() {
     } 
     if(j >= 10 && j <= 30) {
       let timeout = setTimeout(() => {
-        horda(j, "singulary")
-        horda(j / 2, "rocketener")
+        horda(j / 2, "singulary")
+        horda(j / 3, "rocketener")
         
       }, delay);
       timeouts.push(timeout)

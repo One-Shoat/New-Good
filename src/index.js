@@ -62,6 +62,14 @@ addEventListener("mousedown", (ev) => {
                 ini[i].img = "./assets/sprite_2.png"
             }
         }
+        if (ini[i].type == "rocketener") {
+            if (ini[i].life == 2) {
+                ini[i].img = "./assets/rocketener2.png"
+            }
+            if (ini[i].life == 1) {
+                ini[i].img = "./assets/rocketener3.png"
+            }
+        }
         if (ini[i].type == "singulary") {
             if (ini[i].life == 4) {
                 ini[i].img = "./assets/sprite_singulary0.png"
@@ -154,7 +162,7 @@ function render() {
             vel = 0.004
         }
         if (ini[i].type == "rocketener") {
-            vel = 0.01
+            vel = 0.016
         }
         let newX = ini[i].x + diffX * vel
         let newY = ini[i].y + diffY * vel
