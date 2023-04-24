@@ -16,6 +16,7 @@ let isMouseDown = false
 let inventary = false
 let item = [{ type: "a", name: "a", x: -999, y: -999 }]
 let good = { x: canvas.width / 2, y: canvas.height / 2 }
+let horda = 15
 
 addEventListener("mousedown", (ev) => {
     mousex = ev.clientX
@@ -36,7 +37,7 @@ addEventListener("mousedown", (ev) => {
         point -= 30
         return item.push({ type: "graminea", name: "graminea", x: -999, y: -999, life: 3 })
     }
-     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 175, 0.05)) {
+     if (inventary == true && colision(mousex, mousey, canvas.width - 64, canvas.height - 150, 0.05)) {
         if (point < 30) {
             return alert("pobre fudido")
         }
@@ -117,7 +118,12 @@ function dead() {
         }, 2000)
     }
 }
-
+setInterval(() => {
+     horda--
+}, 1000) 
+setInterval(() => {
+     horda = 15
+}, 15000) 
 function colision(x, y, mx, my, margin) {
     let dx = Math.abs(mx - x);
     let dy = Math.abs(my - y);
@@ -134,6 +140,7 @@ level()
 function render() {
     requestAnimationFrame(render)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    text(ctx, "roboto", "red", `Hordas em: ${horda}`, 800, 70)
     for (let i = 0; i < ini.length; i++) {
         let objWidth = 20
         let objHeight = 20
@@ -145,6 +152,9 @@ function render() {
         }
         if (ini[i].type == "singulary") {
             vel = 0.004
+        }
+        if (ini[i].type == "rocketener") {
+            vel = 0.01
         }
         let newX = ini[i].x + diffX * vel
         let newY = ini[i].y + diffY * vel
@@ -160,6 +170,10 @@ function render() {
             if (ini[i].type == "singulary") {
                 life -= 0.5
             }
+            if (ini[i].type == "rocketener") {
+                life -= 1.5
+            }
+            
             demage.play()
             ini.splice(i, 1)
 
@@ -220,7 +234,6 @@ function render() {
         }
     }
     good.y = Math.floor(Math.random() * 21) + canvas.height / 2 - 10
-    draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1096189471885639750/Sprite-0001-exp40rt.png?width=300&height=300", canvas.width / 2 + 500, canvas.height / 2 - 300, 64, 64)
     text(ctx, "roboto", "blue", `Points: ${point}`, 500, 70)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1095456781418893433/image.png?width=120&height=120", canvas.width - 128, canvas.height - 128, 128, 128)
     draw(ctx, "https://media.discordapp.net/attachments/1087504461364207656/1097932946888982558/KOtsu-export.png?width=287&height=287", good.x, good.y, 50, 50)
